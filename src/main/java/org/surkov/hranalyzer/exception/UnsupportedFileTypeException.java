@@ -1,14 +1,13 @@
 package org.surkov.hranalyzer.exception;
 
 /**
- * Исключение, выбрасываемое при попытке обработки неподдерживаемого типа файла.
+ * Исключение, выбрасываемое, когда встречается неподдерживаемый тип файла.
  */
 public class UnsupportedFileTypeException extends RuntimeException {
-
     /**
-     * Конструктор для создания исключения с сообщением.
+     * Конструктор с сообщением.
      *
-     * @param message сообщение об ошибке
+     * @param message Сообщение об ошибке.
      */
     public UnsupportedFileTypeException(String message) {
         super(message);

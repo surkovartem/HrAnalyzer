@@ -5,10 +5,11 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
- * Перечисление для типов файлов, поддерживаемых приложением.
+ * Перечисление, представляющее поддерживаемые типы файлов.
  */
 @Getter
 public enum FileType {
+
     PDF(".pdf"),
     DOCX(".docx"),
     TXT(".txt"),
@@ -16,21 +17,16 @@ public enum FileType {
 
     private final String extension;
 
-    /**
-     * Конструктор для инициализации расширения файла.
-     *
-     * @param extension расширение файла
-     */
     FileType(String extension) {
         this.extension = extension;
     }
 
     /**
-     * Возвращает тип файла по расширению.
+     * Получает тип файла по его расширению.
      *
-     * @param extension расширение файла
-     * @return тип файла
-     * @throws IllegalArgumentException если тип файла не поддерживается
+     * @param extension Расширение файла (например, ".pdf").
+     * @return Тип файла, соответствующий расширению.
+     * @throws IllegalArgumentException Если расширение не соответствует ни одному из поддерживаемых типов файлов.
      */
     public static FileType fromExtension(String extension) {
         return Arrays.stream(FileType.values())
@@ -40,11 +36,11 @@ public enum FileType {
     }
 
     /**
-     * Возвращает тип файла по имени файла.
+     * Получает тип файла по имени файла.
      *
-     * @param fileName имя файла
-     * @return тип файла
-     * @throws IllegalArgumentException если тип файла не поддерживается
+     * @param fileName Имя файла.
+     * @return Тип файла.
+     * @throws IllegalArgumentException Если тип файла не поддерживается.
      */
     public static FileType fromFileName(String fileName) {
         String ext = "";

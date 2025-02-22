@@ -10,17 +10,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Экстрактор текста из PDF файлов.
+ * Реализация {@link TextExtractor} для извлечения текста из PDF-файлов.
+ * Использует библиотеку Apache PDFBox.
  */
 @Component
 public class PdfTextExtractor implements TextExtractor<String> {
 
     /**
-     * Извлекает текст из PDF файла.
+     * Извлекает текст из PDF-файла.
      *
-     * @param inputStream поток ввода для PDF файла
-     * @return строка с извлеченным текстом
-     * @throws IOException если произошла ошибка при чтении файла
+     * @param inputStream Поток ввода, содержащий данные PDF-файла.
+     * @return Извлеченный текст.
+     * @throws IOException Если произошла ошибка при чтении или обработке PDF-файла.
      */
     @Override
     public String extract(InputStream inputStream) throws IOException {
@@ -31,9 +32,9 @@ public class PdfTextExtractor implements TextExtractor<String> {
     }
 
     /**
-     * Возвращает тип файла, который поддерживается этим экстрактором.
+     * Возвращает тип файла, поддерживаемый этим экстрактором (PDF).
      *
-     * @return тип файла PDF
+     * @return {@link FileType#PDF}.
      */
     @Override
     public FileType getSupportedFileType() {
