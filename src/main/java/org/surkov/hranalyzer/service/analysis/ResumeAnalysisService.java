@@ -26,9 +26,13 @@ public class ResumeAnalysisService {
      * @return Результат анализа резюме в виде строки.
      * @throws IOException Если произошла ошибка ввода-вывода при чтении данных из потока.
      */
-    public String analyzeResume(InputStream inputStream, String fileExtension) throws IOException {
+    public String analyzeResume(
+            InputStream inputStream,
+            String fileExtension,
+            String systemPrompt,
+            String gigaModel
+    ) throws IOException {
         String resumeText = extractionService.extractText(inputStream, fileExtension);
-        String prompt = "Представь резюме в виде json (и только, без комментариев): expirence & skills. Другие данные не нужны " + resumeText;
-        return gptService.analyzeResume(prompt);
+        return gptService.analyzeResume(systemPrompt, resumeText, gigaModel);
     }
 }

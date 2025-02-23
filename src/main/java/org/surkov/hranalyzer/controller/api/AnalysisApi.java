@@ -1,6 +1,7 @@
 package org.surkov.hranalyzer.controller.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.surkov.hranalyzer.giga_chat.enumiration.GigaModelType;
+import org.surkov.hranalyzer.giga_chat.enumiration.PromptType;
 
 /**
  * Интерфейс, определяющий API для анализа резюме.
@@ -17,10 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface AnalysisApi {
 
-    @Operation(
-            summary = "Анализ резюме",
-            description = "Загрузите файл резюме для анализа."
-    )
+    @Operation(summary = "Анализ резюме", description = "Загрузите файл резюме для анализа.")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -35,7 +35,7 @@ public interface AnalysisApi {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description = "Некорректный запрос или неподдерживаемый тип файла",
+                            description = "Неподдерживаемый тип файла или неподдерживаемый тип промпта",
                             content = @Content
                     ),
                     @ApiResponse(
@@ -46,5 +46,28 @@ public interface AnalysisApi {
             }
     )
     @PostMapping(value = "/resume", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<String> analyzeResume(@RequestParam("file") MultipartFile file);
+    ResponseEntity<String> analyzeResume(
+            @Parameter(
+                    description = "Файл резюме для анализа",
+                    required = true
+            )
+            @RequestParam("file")
+            MultipartFile file,
+
+            @Parameter(
+                    description = "Тип системного промпта для анализа",
+                    required = true,
+                    schema = @Schema(implementation = PromptType.class)
+            )
+            @RequestParam("promptType")
+            PromptType promptType,
+
+            @Parameter(
+                    description = "Модель GigaChat",
+                    required = true,
+                    schema = @Schema(implementation = GigaModelType.class)
+            )
+            @RequestParam("gigaModelType")
+            GigaModelType gigaModelType
+    );
 }

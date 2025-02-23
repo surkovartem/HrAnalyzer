@@ -24,8 +24,8 @@ public class GptService {
      * @return строка с результатом анализа
      * @throws IOException если произошла ошибка при обработке ответа
      */
-    public String analyzeResume(String text) throws IOException {
-        String response = gigaChatDialog.getResponse(text);
+    public String analyzeResume(String systemPrompt, String text, String gigaModel) throws IOException {
+        String response = gigaChatDialog.getResponse(systemPrompt, text, gigaModel);
         return jsonExtractor.extractTextFromMessage(response);
     }
 }

@@ -16,11 +16,9 @@ import org.surkov.hranalyzer.giga_chat.exception.AuthenticationException;
 import org.surkov.hranalyzer.giga_chat.exception.ApiRequestException;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.Base64;
 
 /**
  * Компонент для взаимодействия с GigaChat API.
@@ -117,15 +115,25 @@ public class GigaChatDialog {
      * @return ответ от API
      * @throws ApiRequestException если запрос не удался
      */
-    public String getResponse(String message) {
+    public String getResponse(String systemPrompt, String message, String gigaModel) {
         refreshTokenIfNeeded();
         try {
             GigaChatRequest payload = new GigaChatRequest();
-            payload.setModel("GigaChat");
+            payload.setModel(gigaModel);
+
+            GigaChatMessage systemMessage = new GigaChatMessage();
+            systemMessage.setRole("system");
+            systemMessage.setContent(systemPrompt);
+
             GigaChatMessage userMessage = new GigaChatMessage();
             userMessage.setRole("user");
             userMessage.setContent(message);
-            payload.setMessages(Collections.singletonList(userMessage));
+
+            List<GigaChatMessage> messages = new ArrayList<>();
+            messages.add(systemMessage);
+            messages.add(userMessage);
+
+            payload.setMessages(messages);
             payload.setStream(false);
 
             String jsonPayload = objectMapper.writeValueAsString(payload);
