@@ -1,5 +1,6 @@
 package org.surkov.hranalyzer.giga_chat.config;
 
+import lombok.RequiredArgsConstructor;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +19,10 @@ import java.util.concurrent.TimeUnit;
  * Конфигурация для создания OkHttpClient с поддержкой SSL/TLS.
  */
 @Configuration
+@RequiredArgsConstructor
 public class OkHttpClientConfig {
 
     private final GigaChatConfig gigaChatConfig;
-
-    public OkHttpClientConfig(GigaChatConfig gigaChatConfig) {
-        this.gigaChatConfig = gigaChatConfig;
-    }
 
     /**
      * Создает и настраивает OkHttpClient с SSL/TLS.
@@ -43,14 +41,19 @@ public class OkHttpClientConfig {
                 keyStore.load(null, null);
                 keyStore.setCertificateEntry("caCert", caCert);
 
-                TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+                TrustManagerFactory tmf = TrustManagerFactory.getInstance(
+                        TrustManagerFactory.getDefaultAlgorithm()
+                );
                 tmf.init(keyStore);
 
                 SSLContext sslContext = SSLContext.getInstance("TLSv1.3");
                 sslContext.init(null, tmf.getTrustManagers(), null);
 
                 return new OkHttpClient.Builder()
-                        .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) tmf.getTrustManagers()[0])
+                        .sslSocketFactory(
+                                sslContext.getSocketFactory(),
+                                (X509TrustManager) tmf.getTrustManagers()[0]
+                        )
                         .connectTimeout(30, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
                         .build();
@@ -67,7 +70,10 @@ public class OkHttpClientConfig {
     private void validateCertFile() {
         File certFile = new File(gigaChatConfig.getCertPath());
         if (!certFile.exists() || !certFile.canRead()) {
-            throw new IllegalStateException("Certificate file not found or unreadable: " + gigaChatConfig.getCertPath());
+            throw new IllegalStateException(
+                    "Certificate file not found or unreadable: "
+                            + gigaChatConfig.getCertPath()
+            );
         }
     }
 }

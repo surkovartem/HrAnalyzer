@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "giga-chat")
 @Validated
 public class GigaChatConfig {
+
     @NotBlank
     private String apiUrl;
     @NotBlank
@@ -34,7 +35,7 @@ public class GigaChatConfig {
                 apiUrl, authUrl, maskSensitiveData(clientId), certPath);
     }
 
-    private String maskSensitiveData(String data) {
+    private String maskSensitiveData(final String data) {
         if (data == null || data.length() < 4) {
             return "****";
         }

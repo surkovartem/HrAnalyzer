@@ -14,26 +14,33 @@ import java.util.stream.Collectors;
 /**
  * Сервис для извлечения текста из файла.
  * Отвечает за выбор правильного {@link TextExtractor} на основе типа файла.
- * Использует Dependency Injection для получения списка всех доступных экстракторов.
  *
- * <p><i>Примечание:</i> Чтобы добавить новый формат, достаточно создать новый класс,
- * реализующий {@link TextExtractor}, и Spring автоматически его подхватит.</p>
+ * <p>
+ * <i>Примечание:</i> Чтобы добавить новый формат, достаточно создать класс,
+ * реализующий {@link TextExtractor}, и Spring автоматически его подхватит.
+ * </p>
  */
 @Service
 public class ExtractionService {
 
+    /**
+     * Отображение типа файла на соответствующий экстрактор текста.
+     * Ключ - {@link FileType}, значение - {@link TextExtractor}.
+     */
     private final Map<FileType, TextExtractor<String>> extractors;
 
     /**
      * Конструктор, внедряющий зависимости экстракторов текста.
      *
-     * @param extractorList Список всех доступных {@link TextExtractor} в приложении.
-     *                      Spring автоматически внедряет сюда все бины, реализующие этот интерфейс.
+     * @param extractorList Список всех доступных {@link TextExtractor}.
      */
     @Autowired
-    public ExtractionService(List<TextExtractor<String>> extractorList) {
+    public ExtractionService(final List<TextExtractor<String>> extractorList) {
         this.extractors = extractorList.stream()
-                .collect(Collectors.toMap(TextExtractor::getSupportedFileType, Function.identity()));
+                .collect(Collectors.toMap(
+                        TextExtractor::getSupportedFileType,
+                        Function.identity()
+                ));
     }
 
     /**
@@ -42,16 +49,23 @@ public class ExtractionService {
      * @param inputStream   Поток ввода, содержащий данные файла.
      * @param fileExtension Расширение файла (например, ".pdf", ".docx").
      * @return Извлеченный текст из файла в виде строки.
-     * @throws IOException                  Если произошла ошибка ввода-вывода при чтении данных из потока.
-     * @throws UnsupportedFileTypeException Если не найден подходящий экстрактор для данного типа файла.
+     * @throws IOException                  Ошибка ввода-вывода при чтении.
+     * @throws UnsupportedFileTypeException Не найден подходящий экстрактор.
      */
-    public String extractText(InputStream inputStream, String fileExtension) throws IOException {
-        FileType fileType = FileType.fromExtension(fileExtension);
+    public String extractText(
+            final InputStream inputStream,
+            final String fileExtension
+    ) throws IOException, UnsupportedFileTypeException {
 
+        FileType fileType = FileType.fromExtension(fileExtension);
         TextExtractor<String> extractor = extractors.get(fileType);
+
         if (extractor == null) {
-            throw new UnsupportedFileTypeException("No extractor found for file type: " + fileType);
+            throw new UnsupportedFileTypeException(
+                    "No extractor found for file type: " + fileType
+            );
         }
+
         return extractor.extract(inputStream);
     }
 }

@@ -23,14 +23,16 @@ public class ResumeAnalysisService {
      *
      * @param inputStream   Поток ввода, содержащий данные резюме.
      * @param fileExtension Расширение файла резюме (например, ".pdf", ".docx").
+     * @param systemPrompt  Cистемный промпта для анализа резюме.
+     * @param gigaModel     Модель для анализа резюме.
      * @return Результат анализа резюме в виде строки.
      * @throws IOException Если произошла ошибка ввода-вывода при чтении данных из потока.
      */
     public String analyzeResume(
-            InputStream inputStream,
-            String fileExtension,
-            String systemPrompt,
-            String gigaModel
+            final InputStream inputStream,
+            final String fileExtension,
+            final String systemPrompt,
+            final String gigaModel
     ) throws IOException {
         String resumeText = extractionService.extractText(inputStream, fileExtension);
         return gptService.analyzeResume(systemPrompt, resumeText, gigaModel);

@@ -24,7 +24,7 @@ public class PdfTextExtractor implements TextExtractor<String> {
      * @throws IOException Если произошла ошибка при чтении или обработке PDF-файла.
      */
     @Override
-    public String extract(InputStream inputStream) throws IOException {
+    public String extract(final InputStream inputStream) throws IOException {
         try (PDDocument document = PDDocument.load(inputStream)) {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(document);

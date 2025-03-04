@@ -27,8 +27,19 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class AnalysisController implements AnalysisApi {
 
+    /**
+     * Сервис для анализа резюме.
+     */
     private final ResumeAnalysisService resumeAnalysisService;
 
+    /**
+     * Анализ резюме.
+     *
+     * @param file          Резюме формата PDF, RTF, DOCX, TXT.
+     * @param promptType    Тип системного промпта для анализа резюме.
+     * @param gigaModelType Модель для анализа.
+     * @return Текст анализа резюме.
+     */
     @Override
     public ResponseEntity<String> analyzeResume(
             final MultipartFile file,
@@ -36,13 +47,17 @@ public class AnalysisController implements AnalysisApi {
             final GigaModelType gigaModelType) {
 
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Файл не должен быть пустым.");
+            return ResponseEntity
+                    .badRequest()
+                    .body("Файл не должен быть пустым.");
         }
 
         try {
             String originalFilename = file.getOriginalFilename();
             if (originalFilename == null) {
-                return ResponseEntity.badRequest().body("Невозможно определить имя файла.");
+                return ResponseEntity
+                        .badRequest()
+                        .body("Невозможно определить имя файла.");
             }
 
             String fileExtension = "";
@@ -61,23 +76,29 @@ public class AnalysisController implements AnalysisApi {
             return ResponseEntity.ok(analysisResult);
         } catch (IOException e) {
             log.error("Ошибка при обработке файла: {}", e.getMessage());
-            return ResponseEntity.internalServerError().body("Ошибка при обработке файла: " + e.getMessage());
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Ошибка при обработке файла: " + e.getMessage());
         } catch (UnsupportedFileTypeException e) {
-            return ResponseEntity.badRequest().body("Ошибка: " + e.getMessage());
+            return ResponseEntity
+                    .badRequest()
+                    .body("Ошибка: " + e.getMessage());
         } catch (IllegalArgumentException e) {
             log.error("Неподдерживаемый тип промпта: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Ошибка: " + e.getMessage());
+            return ResponseEntity
+                    .badRequest()
+                    .body("Ошибка: " + e.getMessage());
         }
     }
 
     /**
      * Возвращает системный промпт на основе указанного типа.
      *
-     * @param promptType тип промпта (BASE_ANALYSIS, JUNIOR_ANALYSIS, MIDDLE_ANALYSIS, SENIOR_ANALYSIS)
+     * @param promptType Тип системного промпта для анализа резюме.
      * @return строка с системным промптом
      * @throws IllegalArgumentException если тип промпта не поддерживается
      */
-    private String getSystemPrompt(PromptType promptType) {
+    private String getSystemPrompt(final PromptType promptType) {
         return switch (promptType) {
             case BASE_ANALYSIS -> SystemPrompt.BASE_ANALYSIS_PROMPT;
             case JUNIOR_ANALYSIS -> SystemPrompt.JUNIOR_ANALYSIS_PROMPT;
@@ -89,11 +110,11 @@ public class AnalysisController implements AnalysisApi {
     /**
      * Возвращает модель GigaChat на основе указанного типа.
      *
-     * @param gigaModelType тип модели (GIGA_MODEL_LITE, GIGA_MODEL_PRO, GIGA_MODEL_MAX)
+     * @param gigaModelType Модель для анализа.
      * @return строка с наименованием модели
      * @throws IllegalArgumentException если тип модели не поддерживается
      */
-    private String getGigaModel(GigaModelType gigaModelType) {
+    private String getGigaModel(final GigaModelType gigaModelType) {
         return switch (gigaModelType) {
             case GigaModelType.GIGA_MODEL_LITE -> GigaModel.GIGA_MODEL_LITE;
             case GigaModelType.GIGA_MODEL_PRO -> GigaModel.GIGA_MODEL_PRO;

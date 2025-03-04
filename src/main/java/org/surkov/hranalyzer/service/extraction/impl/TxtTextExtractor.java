@@ -19,7 +19,7 @@ public class TxtTextExtractor implements TextExtractor<String> {
      * @return строка с извлеченным текстом
      */
     @Override
-    public String extract(InputStream inputStream) {
+    public String extract(final InputStream inputStream) {
         // Заглушка: пока не реализовано
         return "Обработка TXT пока не реализована.";
     }

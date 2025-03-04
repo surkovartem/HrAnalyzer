@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 })
 public class HrAnalyzerApplication {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(HrAnalyzerApplication.class, args);
     }
 
@@ -52,7 +52,7 @@ public class HrAnalyzerApplication {
      * @param event Событие с информацией об ошибке.
      */
     @EventListener(ApplicationFailedEvent.class)
-    public void onApplicationFailed(ApplicationFailedEvent event) {
+    public void onApplicationFailed(final ApplicationFailedEvent event) {
         log.error("Микросервис запущен с ошибкой!");
 
         // Проверяем, есть ли исключение
@@ -72,7 +72,7 @@ public class HrAnalyzerApplication {
      * @param status    Статус приложения (например, "запущен", "готов к работе").
      * @param timeLabel Метка времени (например, "Время запуска", "Время готовности").
      */
-    private void logApplicationEvent(String status, String timeLabel) {
+    private void logApplicationEvent(final String status, final String timeLabel) {
         log.info("Микросервис {}! {} {}", status, timeLabel, LocalDateTime.now());
     }
 }
