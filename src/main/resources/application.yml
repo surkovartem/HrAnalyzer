@@ -4,3 +4,6 @@ giga-chat:
   client-id: ${GC_CLIENT_ID:NOT_SET}
   client-secret: ${GC_CLIENT_SECRET:NOT_SET}
   cert-path: src/main/resources/certs/russian_trusted_root_ca.cer
+  token-refresh-buffer-ms: 60000
+  retry-initial-delay-ms: 1000
+  retry-delay-multiplier: 2
