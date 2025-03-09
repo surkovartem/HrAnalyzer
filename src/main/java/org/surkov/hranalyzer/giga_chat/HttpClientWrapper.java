@@ -39,10 +39,10 @@ public class HttpClientWrapper {
      * @param request      HTTP-запрос, который необходимо выполнить.
      * @param errorMessage Сообщение об ошибке для логирования и исключения.
      * @return JSON-объект, представляющий тело ответа.
-     * @throws ApiRequestException     Если запрос завершился с ошибкой или произошла ошибка ввода-вывода.
-     * @throws AuthenticationException Если ошибка связана с аутентификацией (коды ответа 401 или 403).
+     * @throws ApiRequestException     запрос завершился с ошибкой или произошла ошибка ввода-вывода.
+     * @throws AuthenticationException ошибка связана с аутентификацией (коды ответа 401 или 403).
      */
-    public JsonNode executeRequest(Request request, String errorMessage) {
+    public JsonNode executeRequest(final Request request, final String errorMessage) {
         try (Response response = client.newCall(request).execute()) {
             String responseBody = handleResponse(response, errorMessage);
             return objectMapper.readTree(responseBody);
@@ -58,9 +58,9 @@ public class HttpClientWrapper {
      * @param request      HTTP-запрос, который необходимо выполнить.
      * @param errorMessage Сообщение об ошибке для логирования и исключения.
      * @return Тело ответа в виде строки.
-     * @throws ApiRequestException Если запрос завершился с ошибкой или произошла ошибка ввода-вывода.
+     * @throws ApiRequestException запрос завершился с ошибкой или произошла ошибка ввода-вывода.
      */
-    public String executeRequestForString(Request request, String errorMessage) {
+    public String executeRequestForString(final Request request, final String errorMessage) {
         try (Response response = client.newCall(request).execute()) {
             return handleResponse(response, errorMessage);
         } catch (IOException e) {
@@ -76,11 +76,11 @@ public class HttpClientWrapper {
      * @param response     HTTP-ответ, полученный от сервера.
      * @param errorMessage Сообщение об ошибке для логирования и исключения.
      * @return Тело ответа в виде строки.
-     * @throws ApiRequestException     Если запрос завершился с ошибкой или произошла ошибка ввода-вывода.
-     * @throws AuthenticationException Если ошибка связана с аутентификацией (коды ответа 401 или 403).
-     * @throws IOException             Если произошла ошибка при чтении тела ответа.
+     * @throws ApiRequestException     запрос завершился с ошибкой или произошла ошибка ввода-вывода.
+     * @throws AuthenticationException ошибка связана с аутентификацией (коды ответа 401 или 403).
+     * @throws IOException             ошибка при чтении тела ответа.
      */
-    private String handleResponse(Response response, String errorMessage) throws IOException {
+    private String handleResponse(final Response response, final String errorMessage) throws IOException {
         if (!response.isSuccessful()) {
             String responseBody = response.body() != null ? response.body().string() : "Тело ответа отсутствует";
             log.error(

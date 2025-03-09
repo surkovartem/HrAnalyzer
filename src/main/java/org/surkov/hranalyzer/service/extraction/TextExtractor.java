@@ -15,7 +15,7 @@ public interface TextExtractor<T> {
      *
      * @param inputStream Поток ввода, содержащий данные файла.
      * @return Извлеченное содержимое файла.
-     * @throws IOException Если произошла ошибка ввода-вывода.
+     * @throws IOException ошибка ввода-вывода.
      */
     T extract(InputStream inputStream) throws IOException;
 

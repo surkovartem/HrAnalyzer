@@ -21,9 +21,9 @@ public class JsonExtractor {
      *
      * @param response JSON ответ от Giga Chat
      * @return строка с извлеченным текстом
-     * @throws IOException если произошла ошибка при обработке JSON
+     * @throws IOException ошибка при обработке JSON
      */
-    public String extractTextFromMessage(String response) throws IOException {
+    public String extractTextFromMessage(final String response) throws IOException {
         JsonNode rootNode = objectMapper.readTree(response);
         JsonNode messageNode = rootNode.path("choices").get(0).path("message").path("content");
         return messageNode.asText();

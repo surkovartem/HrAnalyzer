@@ -17,7 +17,7 @@ public class SecurityUtils {
      * @param data Строка с данными для маскировки. Может быть {@code null}.
      * @return Замаскированная строка, например, "abcd****wxyz", или "****", если строка слишком короткая или {@code null}.
      */
-    public static String maskSensitiveData(String data) {
+    public static String maskSensitiveData(final String data) {
         if (data == null || data.length() <= MASK_VISIBLE_CHARS * 2) {
             return "****";
         }

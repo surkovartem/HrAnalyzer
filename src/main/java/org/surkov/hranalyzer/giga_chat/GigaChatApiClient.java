@@ -52,15 +52,15 @@ public class GigaChatApiClient {
      * для получения ответа на основе переданных данных.
      *
      * @param systemPrompt Системный промпт, задающий контекст для анализа.
-     * @param text         Текст резюме
-     * @param gigaModel    Модель GigaChat, используемая для обработки запроса.
+     * @param text         Текст резюме для анализа.
+     * @param model    Модель для анализа резюме.
      * @return Ответ от API в виде строки.
-     * @throws ApiRequestException Ошибка при выполнении запроса к API.
+     * @throws ApiRequestException ошибка при выполнении запроса к API.
      */
     public String getResponse(
             final String systemPrompt,
             final String text,
-            final String gigaModel
+            final String model
     ) {
         try {
             GigaChatMessage systemMessage = new GigaChatMessage();
@@ -76,7 +76,7 @@ public class GigaChatApiClient {
             messages.add(userMessage);
 
             GigaChatRequest payload = new GigaChatRequest();
-            payload.setModel(gigaModel);
+            payload.setModel(model);
             payload.setMessages(messages);
             payload.setStream(false);
 
@@ -89,9 +89,18 @@ public class GigaChatApiClient {
             Request request = new Request.Builder()
                     .url(config.getApiUrl())
                     .post(body)
-                    .addHeader("Authorization", "Bearer " + tokenManager.getAccessToken())
-                    .addHeader("Content-Type", "application/json")
-                    .addHeader("RqUID", UUID.randomUUID().toString())
+                    .addHeader(
+                            "Authorization",
+                            "Bearer " + tokenManager.getAccessToken()
+                    )
+                    .addHeader(
+                            "Content-Type",
+                            "application/json"
+                    )
+                    .addHeader(
+                            "RqUID",
+                            UUID.randomUUID().toString()
+                    )
                     .build();
 
             return httpClientWrapper.executeRequestForString(
@@ -100,7 +109,9 @@ public class GigaChatApiClient {
             );
         } catch (Exception e) {
             log.error("Ошибка при обработке запроса к GigaChat API", e);
-            throw new ApiRequestException("Ошибка при обработке запроса к GigaChat API", e);
+            throw new ApiRequestException(
+                    "Ошибка при обработке запроса к GigaChat API", e
+            );
         }
     }
 }

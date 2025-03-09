@@ -119,7 +119,7 @@ public class TokenManager {
      * Ожидает завершения обновления токена другим потоком.
      * Использует механизм блокировки и условия для эффективного ожидания без активного ожидания.
      *
-     * @throws AuthenticationException Если ожидание обновления токена было прервано.
+     * @throws AuthenticationException ожидание обновления токена было прервано.
      */
     private void waitForTokenRefresh() {
         lock.lock();
@@ -141,7 +141,7 @@ public class TokenManager {
      * Получает новый токен доступа от GigaChat API.
      * Метод выполняется с механизмом повторных попыток в случае ошибок аутентификации.
      *
-     * @throws AuthenticationException Если не удалось получить токен доступа.
+     * @throws AuthenticationException не удалось получить токен доступа.
      */
     @Retryable(
             retryFor = AuthenticationException.class,
@@ -163,10 +163,22 @@ public class TokenManager {
             Request request = new Request.Builder()
                     .url(config.getAuthUrl())
                     .post(formBody)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                    .addHeader("Accept", "application/json")
-                    .addHeader("RqUID", UUID.randomUUID().toString())
-                    .addHeader("Authorization", "Basic " + authKey)
+                    .addHeader(
+                            "Content-Type",
+                            "application/x-www-form-urlencoded"
+                    )
+                    .addHeader(
+                            "Accept",
+                            "application/json"
+                    )
+                    .addHeader(
+                            "RqUID",
+                            UUID.randomUUID().toString()
+                    )
+                    .addHeader(
+                            "Authorization",
+                            "Basic " + authKey
+                    )
                     .build();
 
             JsonNode responseBody = httpClientWrapper.executeRequest(request, "Не удалось получить токен доступа");

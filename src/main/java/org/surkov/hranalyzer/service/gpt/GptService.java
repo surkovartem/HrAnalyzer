@@ -21,16 +21,16 @@ public class GptService {
      * Анализирует текст резюме с помощью Giga Chat.
      *
      * @param systemPrompt Cистемный промпта для анализа резюме.
-     * @param text         текст резюме для анализа
-     * @param gigaModel    Модель для анализа резюме.
+     * @param text         Текст резюме для анализа.
+     * @param model    Модель для анализа резюме.
      * @return строка с результатом анализа
-     * @throws IOException если произошла ошибка при обработке ответа
+     * @throws IOException произошла ошибка при обработке ответа
      */
     public String analyzeResume(
             final String systemPrompt,
             final String text,
-            final String gigaModel) throws IOException {
-        String response = gigaChatDialog.getResponse(systemPrompt, text, gigaModel);
+            final String model) throws IOException {
+        String response = gigaChatDialog.getResponse(systemPrompt, text, model);
         return jsonExtractor.extractTextFromMessage(response);
     }
 }

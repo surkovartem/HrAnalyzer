@@ -39,9 +39,9 @@ public interface AnalysisApi {
     /**
      * Анализ резюме.
      *
-     * @param file          Резюме формата PDF, RTF, DOCX, TXT.
-     * @param promptType    Тип системного промпта для анализа резюме.
-     * @param gigaModelType Модель для анализа.
+     * @param file       Резюме формата PDF, RTF, DOCX, TXT.
+     * @param promptType Тип системного промпта для анализа резюме.
+     * @param modelType  Модель для анализа.
      * @return Текст анализа резюме.
      */
     @Operation(
@@ -89,5 +89,5 @@ public interface AnalysisApi {
                     required = true,
                     schema = @Schema(implementation = GigaModelType.class)
             )
-            @RequestParam("gigaModelType") GigaModelType gigaModelType);
+            @RequestParam("gigaModelType") GigaModelType modelType);
 }

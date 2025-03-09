@@ -42,10 +42,10 @@ public class SecurityConfig {
      *
      * @param http объект конфигурации HTTP-безопасности
      * @return настроенная цепочка фильтров безопасности
-     * @throws Exception если возникла ошибка при настройке
+     * @throws Exception ошибка при настройке
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize

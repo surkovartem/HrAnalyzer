@@ -21,7 +21,7 @@ public class PdfTextExtractor implements TextExtractor<String> {
      *
      * @param inputStream Поток ввода, содержащий данные PDF-файла.
      * @return Извлеченный текст.
-     * @throws IOException Если произошла ошибка при чтении или обработке PDF-файла.
+     * @throws IOException ошибка при чтении или обработке PDF-файла.
      */
     @Override
     public String extract(final InputStream inputStream) throws IOException {

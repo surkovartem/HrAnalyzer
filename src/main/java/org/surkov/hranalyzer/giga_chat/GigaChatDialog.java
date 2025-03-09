@@ -35,7 +35,7 @@ public class GigaChatDialog {
      * Инициализирует компонент.
      * Проверяет конфигурацию и получает начальный токен доступа.
      *
-     * @throws IllegalStateException если конфигурация некорректна
+     * @throws IllegalStateException конфигурация некорректна
      *                               или не удалось получить токен доступа
      */
     @PostConstruct
@@ -52,7 +52,7 @@ public class GigaChatDialog {
     /**
      * Проверяет корректность конфигурации.
      *
-     * @throws IllegalStateException если URL аутентификации не использует HTTPS
+     * @throws IllegalStateException URL аутентификации не использует HTTPS
      */
     private void validateConfig() {
         if (!config.getAuthUrl().startsWith("https")) {
@@ -64,15 +64,15 @@ public class GigaChatDialog {
      * Выполняет запрос к GigaChat API для получения ответа на основе переданных данных.
      *
      * @param systemPrompt Системный промпт, задающий контекст для анализа.
-     * @param text         Текст, который необходимо обработать (например, резюме).
-     * @param gigaModel    Модель GigaChat, используемая для обработки запроса.
+     * @param text         Текст резюме для анализа.
+     * @param model        Модель для анализа резюме.
      * @return Ответ от API в виде строки.
      */
     public String getResponse(
             final String systemPrompt,
             final String text,
-            final String gigaModel
+            final String model
     ) {
-        return apiClient.getResponse(systemPrompt, text, gigaModel);
+        return apiClient.getResponse(systemPrompt, text, model);
     }
 }

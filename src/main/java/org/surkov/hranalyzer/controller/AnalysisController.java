@@ -37,14 +37,14 @@ public class AnalysisController implements AnalysisApi {
      *
      * @param file          Резюме формата PDF, RTF, DOCX, TXT.
      * @param promptType    Тип системного промпта для анализа резюме.
-     * @param gigaModelType Модель для анализа.
+     * @param modelType Модель для анализа.
      * @return Текст анализа резюме.
      */
     @Override
     public ResponseEntity<String> analyzeResume(
             final MultipartFile file,
             final PromptType promptType,
-            final GigaModelType gigaModelType) {
+            final GigaModelType modelType) {
 
         if (file.isEmpty()) {
             return ResponseEntity
@@ -71,7 +71,7 @@ public class AnalysisController implements AnalysisApi {
                     file.getInputStream(),
                     fileExtension,
                     getSystemPrompt(promptType),
-                    getGigaModel(gigaModelType)
+                    getGigaModel(modelType)
             );
             return ResponseEntity.ok(analysisResult);
         } catch (IOException e) {
@@ -96,7 +96,7 @@ public class AnalysisController implements AnalysisApi {
      *
      * @param promptType Тип системного промпта для анализа резюме.
      * @return строка с системным промптом
-     * @throws IllegalArgumentException если тип промпта не поддерживается
+     * @throws IllegalArgumentException тип промпта не поддерживается
      */
     private String getSystemPrompt(final PromptType promptType) {
         return switch (promptType) {
@@ -110,12 +110,12 @@ public class AnalysisController implements AnalysisApi {
     /**
      * Возвращает модель GigaChat на основе указанного типа.
      *
-     * @param gigaModelType Модель для анализа.
+     * @param modelType Модель для анализа.
      * @return строка с наименованием модели
-     * @throws IllegalArgumentException если тип модели не поддерживается
+     * @throws IllegalArgumentException тип модели не поддерживается
      */
-    private String getGigaModel(final GigaModelType gigaModelType) {
-        return switch (gigaModelType) {
+    private String getGigaModel(final GigaModelType modelType) {
+        return switch (modelType) {
             case GIGA_MODEL_LITE -> GigaModel.GIGA_MODEL_LITE;
             case GIGA_MODEL_PRO -> GigaModel.GIGA_MODEL_PRO;
             case GIGA_MODEL_MAX -> GigaModel.GIGA_MODEL_MAX;
