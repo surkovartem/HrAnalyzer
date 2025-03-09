@@ -116,9 +116,9 @@ public class AnalysisController implements AnalysisApi {
      */
     private String getGigaModel(final GigaModelType gigaModelType) {
         return switch (gigaModelType) {
-            case GigaModelType.GIGA_MODEL_LITE -> GigaModel.GIGA_MODEL_LITE;
-            case GigaModelType.GIGA_MODEL_PRO -> GigaModel.GIGA_MODEL_PRO;
-            case GigaModelType.GIGA_MODEL_MAX -> GigaModel.GIGA_MODEL_MAX;
+            case GIGA_MODEL_LITE -> GigaModel.GIGA_MODEL_LITE;
+            case GIGA_MODEL_PRO -> GigaModel.GIGA_MODEL_PRO;
+            case GIGA_MODEL_MAX -> GigaModel.GIGA_MODEL_MAX;
         };
     }
 }
