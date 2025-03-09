@@ -7,3 +7,15 @@ giga-chat:
   token-refresh-buffer-ms: 60000
   retry-initial-delay-ms: 1000
   retry-delay-multiplier: 2
+
+api:
+  user:
+    username: ${HRA_USERNAME:admin}
+    password: ${HRA_PASSWORD:secret}
+
+spring:
+  security:
+    # автоматическая генерация пароля в логах
+    user:
+      name: disabled
+      password: disabled
