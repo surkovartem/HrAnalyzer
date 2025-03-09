@@ -1,0 +1,14 @@
+server:
+  port: 8080
+  forward-headers-strategy: native
+  tomcat:
+    remote-ip-header: X-Forwarded-For
+    protocol-header: X-Forwarded-Proto
+
+# Настройки CORS
+cors:
+  allowed-origin: "http://localhost:8080"
+
+# Настройки OpenAPI/Swagger
+openapi:
+  server-url: "http://localhost:8080"
