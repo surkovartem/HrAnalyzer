@@ -13,8 +13,9 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
+                registry
+                        .addMapping("/api/**")
+                        .allowedOrigins("https://hr-analyzer.sophia-lab.ru")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(false);
